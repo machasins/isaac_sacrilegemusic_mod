@@ -1,0 +1,20 @@
+<sounds root="sfx/">
+    <sound name="sacrilege_devilenter">
+        <sample weight="1" path="devilRoomEnter.wav" />
+    </sound>
+    <sound name="sacrilege_angelappear">
+        <sample weight="1" path="angelRoomAppear.wav" />
+    </sound>
+    <sound name="sacrilege_challengeenter">
+        <sample weight="1" path="challengeRoomEnter.wav" />
+    </sound>
+    <sound name="sacrilege_devilitemtake">
+        <sample weight="1" path="devilRoomItemTake.wav" />
+    </sound>
+    <sound name="sacrilege_supersecretappear">
+        <sample weight="1" path="supersecretRoomAppear.wav" />
+    </sound>
+    <sound name="sacrilege_ultrasecretappear">
+        <sample weight="1" path="ultrasecretRoomAppear.wav" />
+    </sound>
+</sounds>
