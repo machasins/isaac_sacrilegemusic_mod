@@ -1,7 +1,6 @@
 <music root="music/">
 	<track name="Mega Satan Fight" intro="Fight Ogg/Mega Satan Fight Intro.ogg" path="Fight Ogg/Mega Satan Fight.ogg" loop="true" mul="2"/>
-	<track name="Challenge Room (fight) (Alt)" path="ambush alt loop.ogg" loop="true" />
-	<track name="Challenge Room Entry (jingle) (Alt)" path="JINGLE OGG/ambush alt intro.ogg" loop="false" />
+	<track name="Challenge Room (fight) (Alt)" path="ambush alt.ogg" intro="JINGLE OGG/ambush alt intro.ogg" loop="true" />
 	<!--<track name="RYS Boss (Hush Phase 1)" path="bHushBaby.ogg" loop="true" mul="1.5"/>
 	<track name="RYS Final Boss Dead" intro="bDefeatFinalIntro.ogg" path="bDefeatFinalLoop.ogg" loop="true" mul="1.7"/>
 	<track name="RYS Boss Intro" path="jBossIntro.ogg" loop="false" mul="1.6"/>

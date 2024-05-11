@@ -466,6 +466,7 @@ end
 local function postNewRoom()
     if not skipNextRoomClear then
         hourglassBackup.run = SaveManager.Utility.DeepCopy(dataCache.game.run)
+        hourglassBackup.floor = SaveManager.Utility.DeepCopy(dataCache.game.floor)
         hourglassBackup.room = SaveManager.Utility.DeepCopy(dataCache.game.room)
         dataCache.game.room = SaveManager.Utility.PatchSaveFile({}, SaveManager.DEFAULT_SAVE.game.room)
         dataCache.gameNoBackup.room = SaveManager.Utility.PatchSaveFile({}, SaveManager.DEFAULT_SAVE.gameNoBackup.room)
@@ -481,6 +482,7 @@ local function postNewLevel()
     if not skipNextLevelClear then
         hourglassBackup.run = SaveManager.Utility.DeepCopy(dataCache.game.run)
         hourglassBackup.floor = SaveManager.Utility.DeepCopy(dataCache.game.floor)
+        hourglassBackup.room = SaveManager.Utility.DeepCopy(dataCache.game.room)
         dataCache.game.floor = SaveManager.Utility.PatchSaveFile({}, SaveManager.DEFAULT_SAVE.game.floor)
         dataCache.gameNoBackup.floor = SaveManager.Utility.PatchSaveFile({}, SaveManager.DEFAULT_SAVE.gameNoBackup.floor)
 

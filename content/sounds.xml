@@ -8,6 +8,9 @@
     <sound name="sacrilege_challengeenter">
         <sample weight="1" path="challengeRoomEnter.wav" />
     </sound>
+    <sound name="sacrilege_minibossenter">
+        <sample weight="1" path="minibossEncounter.wav" />
+    </sound>
     <sound name="sacrilege_devilitemtake">
         <sample weight="1" path="devilRoomItemTake.wav" />
     </sound>
