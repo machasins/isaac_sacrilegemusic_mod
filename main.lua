@@ -196,27 +196,24 @@ local function CallbackWhenRoomAppears(runType)
         for i = 0, DoorSlot.NUM_DOOR_SLOTS do
             -- The door in the current slot
             local door = room:GetDoor(i)
-            -- Check if the door exists
-            if door then
-                -- Loop through all callbacks
-                for _, data in pairs(DoorCallbacks) do
-                    -- Check if the run type for the callback is the same
-                    if runType == data.runType then
-                        -- Initialize the state of the doors in the room
-                        save[data.flag] = save[data.flag] or {}
-                        -- Initalize the state of this door
-                        save[data.flag][i .. ""] = save[data.flag][i .. ""] or DoorFlag.Open
-                        -- The previous state of the door
-                        local previousState = save[data.flag][i .. ""]
-                        -- The current state of the door
-                        save[data.flag][i .. ""] = door:IsOpen() and DoorFlag.Open or DoorFlag.Closed
-                        -- Initialize the trigger function
-                        local check = data.trigger or applicable
-                        -- Check if the door passes a trigger function
-                        if check(data, room, door, previousState, save[data.flag][i .. ""]) then
-                            -- Execute the callback
-                            data.callback()
-                        end
+            -- Loop through all callbacks
+            for _, data in pairs(DoorCallbacks) do
+                -- Check if the run type for the callback is the same
+                if runType == data.runType then
+                    -- Initialize the state of the doors in the room
+                    save[data.flag] = save[data.flag] or {}
+                    -- Initalize the state of this door
+                    save[data.flag][i .. ""] = save[data.flag][i .. ""] or DoorFlag.Open
+                    -- The previous state of the door
+                    local previousState = save[data.flag][i .. ""]
+                    -- The current state of the door
+                    save[data.flag][i .. ""] = (door and door:IsOpen()) and DoorFlag.Open or DoorFlag.Closed
+                    -- Initialize the trigger function
+                    local check = data.trigger or applicable
+                    -- Check if the door passes a trigger function
+                    if door and check(data, room, door, previousState, save[data.flag][i .. ""]) then
+                        -- Execute the callback
+                        data.callback()
                     end
                 end
             end
@@ -395,7 +392,7 @@ function SACRILEGE:PickupCollision(pickup, player)
     -- AND the pickup has a price
     if player.Type == EntityType.ENTITY_PLAYER and pickup.Variant == PickupVariant.PICKUP_COLLECTIBLE and pickup.Price < 0 then
         -- Set that the player touched an item
-        itemTouched[player.Index] = true
+        itemTouched[player.Index] = pickup.SubType
     end
 end
 
@@ -407,7 +404,7 @@ function SACRILEGE:SFXWhenTakingDeal(player)
     -- The current room
     local room = Game():GetLevel():GetCurrentRoom()
     -- Check if the current room is a devil room and the player has touched an item
-    if room:GetType() == RoomType.ROOM_DEVIL and itemTouched[player.Index] and player.QueuedItem.Item then
+    if room:GetType() == RoomType.ROOM_DEVIL and itemTouched[player.Index] and player.QueuedItem.Item and player.QueuedItem.Item.ID == itemTouched[player.Index] then
         -- Stop the normal SFX
         SFX:Stop(SoundEffect.SOUND_DEVILROOM_DEAL)
         -- Play the SFX
