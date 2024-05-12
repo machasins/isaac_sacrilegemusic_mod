@@ -1,130 +1,112 @@
 <music root="music/">
-	<track name="Mega Satan Fight" intro="Fight Ogg/Mega Satan Fight Intro.ogg" path="Fight Ogg/Mega Satan Fight.ogg" loop="true" mul="2"/>
-	<track name="Challenge Room (fight) (Alt)" path="ambush alt.ogg" intro="JINGLE OGG/ambush alt intro.ogg" loop="true" />
-	<!--<track name="RYS Boss (Hush Phase 1)" path="bHushBaby.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Final Boss Dead" intro="bDefeatFinalIntro.ogg" path="bDefeatFinalLoop.ogg" loop="true" mul="1.7"/>
-	<track name="RYS Boss Intro" path="jBossIntro.ogg" loop="false" mul="1.6"/>
-	<track name="RYS Ultra Greed Layered" path="LAYERS/blUltraGreedier.ogg" loop="true" mul="1.5" layer="LAYERS/blUltraGreed.ogg" layermul="1.5" layermode="2"/>
-	<track name="RYS FF Boss Intro" path="ff/fbBossIntro.ogg" loop="false" mul="1.3"/>
-	<track name="RYS FF Boss" path="ff/fbBoss.ogg" loop="true" mul="1.5"/>
-	<track name="RYS FF Horseman Intro" path="ff/fbBorseIntro.ogg" loop="false" mul="1.3"/>
-	<track name="RYS FF Horseman Boss" path="ff/fbBorse.ogg" loop="true" mul="1.5"/>
-	<track name="RYS FF Horseman Jingle" path="ff/fbBorseDead.ogg" loop="false" mul="1.4"/>
-	<track name="RYS FF Boss Jingle" path="ff/fbBossDead.ogg" loop="false" mul="1.4"/> 
-	<track name="RYS FF Boss Dead" intro="ff/fbDefeatIntro.ogg" path="ff/fbDefeatLoop.ogg" loop="true" mul="1.4"/>
-	<track name="RYS FF Crawlspace" path="ff/crawlspace.ogg" loop="true" mul="1.6"/>
-	<track name="RYS FF Black Market" path="ff/blackMarket.ogg" loop="true" mul="1.6"/>
-	<track name="RYS FF Alt Boss Intro" path="ff/fbBossIntroAlt.ogg" loop="false" mul="1.5"/>
-	<track name="RYS FF Alt Boss" path="ff/fbBossAlt.ogg" loop="true" mul="1.6"/>
-	<track name="RYS FF Alt Boss Jingle" intro="ff/fbBossDeadAlt.ogg" loop="false" mul="1.5"/>
-	-->
-	
-	
-	<!-- SOUNDTRACK MENU -->
-	<!--<track name="RYS Basement" path="fBasement.ogg" loop="true" mul="1.3" layer="LAYERS/lBasement.ogg" layermul="1.2"/>
-	<track name="RYS Caves" path="fCaves.ogg" loop="true" mul="1.4"/>
-	<track name="RYS Depths" path="fDepths.ogg" loop="true" mul="1.5" layer="LAYERS/lDepths.ogg" layermul="0.4"/>
-	<track name="RYS Cellar" path="fCellar.ogg" loop="true" mul="1.5" layer="LAYERS/lCellar.ogg" layermode="2" layermul="1.5"/> 
-	<track name="RYS Catacombs" path="fCatacombs.ogg" loop="true" mul="1.5" layer="LAYERS/lCatacombs.ogg" layermul="1"/>
-	<track name="RYS Necropolis" path="fNecropolis.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Womb/Utero" path="fWomb.ogg" loop="true" mul="1.5" layer="LAYERS/lWomb.ogg" layermul="1.5"/>
-	<track name="RYS Game Over" intro="gameOverIntro.ogg" path="gameOverLoop.ogg" loop="true" mul="1.7" />
-	<track name="RYS Boss" path="bBasicA.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Cathedral" path="fCathedral.ogg" loop="true" mul="1.7"/>
-	<track name="RYS Sheol" path="fSheol.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Dark Room" path="fDarkRoom.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Chest" path="fChest.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Burning Basement" path="fBurningBasement.ogg" loop="true" mul="1.5" layer="LAYERS/lBurningBasement.ogg" layermul="1.2"/>
-	<track name="RYS Flooded Caves" path="fFloodedCaves.ogg" loop="true" mul="1.5" layer="LAYERS/lFloodedCaves.ogg" layermul="1.2"/>
-	<track name="RYS Dank Depths" path="fDankDepths.ogg" loop="true" mul="1.5" layer="LAYERS/lDankDepths.ogg" layermul="1.2"/>
-	<track name="RYS Scarred Womb" path="fScarredWomb.ogg" loop="true" mul="1.5" layer="LAYERS/lScarredWomb.ogg" layermul="1"/>
-	<track name="RYS Blue Womb" path="fBlueWomb.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Utero" path="fUtero.ogg" loop="true" mul="1.5" layer="LAYERS/lUtero.ogg" layermul="1.2"/>
-	<track name="RYS Boss (Depths - Mom)" path="bMom.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Boss (Womb - Mom's Heart)" path="bMomsHeart.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Boss (Cathedral - Isaac)" path="bIsaac.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Boss (Sheol - Satan)" path="bSatan.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Boss (Dark Room)" path="bLamb.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Boss (Chest - ???)" path="bBlueBaby.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Boss (alternate)" path="bBasicB.ogg" loop="true" mul="1.5" />
-	<track name="RYS Boss (Blue Womb - Hush)" path="bHush.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Boss (Ultra Greed)" path="bUltraGreed.ogg" loop="true" mul="1.5" />
-	<track name="RYS Library Room" path="rLibrary.ogg" loop="true" mul="1.7"/>
-	<track name="RYS Secret Room" path="rSecret.ogg" loop="true" mul="1.2"/>
-	<track name="RYS Secret Room Alt" path="rSecretS.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Devil Room" path="rDevil.ogg" loop="true" />
-	<track name="RYS Angel Room" path="rAngel.ogg" loop="true" mul="1.3"/>
-	<track name="RYS Shop Room" path="rShop.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Arcade Room" path="rArcade.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Boss Room (empty)" path="bDefeat.ogg" loop="true" mul="1.7"/>
-	<track name="RYS Challenge Room (fight)" path="challengeMiniboss.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Boss Rush" intro="bossRushIntro.ogg" path="bossRushLoop.ogg" loop="true" mul="1.5" />
-	<track name="RYS Boss Rush (jingle)" path="challengeMinibossOutro.ogg" loop="false" mul="1.5" />
+	<track name="Sacrilege Basement" intro="Diptera Sonata Intro.ogg" path="Diptera Sonata(Basement).ogg" layerintro="Diptera Layer Intro.ogg" layer="Diptera Layer.ogg" loop="true" mul="2" layermul="2"/>
+	<track name="Sacrilege Cellar" intro="The Cellar Alt Intro.ogg" path="The Cellar Alt.ogg" layerintro="The Cellar Alt Layer Intro.ogg" layer="The Cellar Alt Layer.ogg" loop="true" mul="3" layermul="2"/>
+	<track name="Sacrilege Burning Basement" intro="afterbirth/Burning Basement Intro.ogg" path="afterbirth/Burning Basement Loop.ogg" layerintro="afterbirth/Burning Basement Intro Silent.ogg" layer="afterbirth/Burning Basement Guitar Layer_04.ogg" loop="true" mul="1.3" layermul="1.3" />
+	<track name="Sacrilege Caves" intro="The Caves Intro.ogg" path="The Caves.ogg" layerintro="The Caves Layer Intro.ogg" layer="The Caves Layer.ogg" loop="true" mul="2" layermul="2.9"/>
+	<track name="Sacrilege Catacombs" intro="Catacombs Intro.ogg" path="Catacombs.ogg" layerintro="Catacombs Layer Intro.ogg" layer="Catacombs Layer.ogg" loop="true" mul="2" layermul="2.3"/>
+	<track name="Sacrilege Flooded Caves" intro="afterbirth/Kave Diluvii (Flooded Caves)Intro.ogg" path="afterbirth/Kave Diluvii (Flooded Caves) Loop.ogg" layerintro="afterbirth/Kave Diluvii (Flooded Caves)Intro Silent.ogg" layer="afterbirth/Kave Diluvii (Flooded Caves) Layer.ogg" loop="true" mul="2" layermul="2" /> 
+	<track name="Sacrilege Depths" intro="The Depths Intro.ogg" path="The Depths.ogg" layerintro="The Depths Intro Layer.ogg" layer="The Depths Layer.ogg" loop="true" mul="2" layermul="2.3"/>
+	<track name="Sacrilege Necropolis" intro="Necropolis Intro.ogg" path="Necropolis.ogg" layerintro="Necropolis Intro Layer.ogg" layer="Necropolis Layer.ogg" loop="true" mul="2.5" layermul="2"/>
+	<track name="Sacrilege Dank Depths" intro="afterbirth/Pulso Profundum (Dank Depths ) Intro.ogg" path="afterbirth/Pulso Profundum (Dank Depths ) Loop.ogg" layerintro="afterbirth/Pulso Profundum (Dank Depths ) Intro Silent.ogg" layer="afterbirth/Pulso Profundum (Dank Depths ) layer.ogg" loop="true" mul="2" layermul="2"/> 
+	<track name="Sacrilege Womb/Utero" intro="The Womb Chapter Four Intro.ogg" path="The Womb Chapter Four.ogg" layerintro="The Womb Chapter Four Intro Layer.ogg" layer="The Womb Chapter Four Layer.ogg" loop="true" mul="3.1" layermul="3"/>
+	<track name="Sacrilege Scarred Womb" intro="afterbirth/Cicatrix (Scarred Womb) Intro.ogg" path="afterbirth/Cicatrix (Scarred Womb) Loop.ogg" layerintro="afterbirth/Cicatrix (Scarred Womb) Intro Silent.ogg" layer="afterbirth/Cicatrix (Scarred Womb) layer.ogg" loop="true" mul="2" layermul="2"/>
+	<track name="Sacrilege Blue Womb" intro="Afterbirth/Nativitate  (Dead Womb Floor) Intro.ogg" path="Afterbirth/Nativitate (Dead Womb Floor) Loop.ogg" layerintro="Afterbirth/Nativitate  (Dead Womb Floor) Intro silence.ogg" layer="Afterbirth/Nativitate (Dead Womb Floor) Layer.ogg" loop="true" />
+	<track name="Sacrilege Sheol" intro="Sheol Intro.ogg" path="Sheol.ogg" layerintro="sheol intro layer.ogg" layer="sheol layer.ogg" loop="true" mul="2.7" layermul="2.5"/>
+	<track name="Sacrilege Cathedral" intro="Cathedral Intro.ogg" path="Cathedral Chant.ogg" layerintro="Cathedral Intro Layer.ogg" layer="Cathedral Chant Layer.ogg" loop="true" mul="3" layermul="2"/>
+	<track name="Sacrilege Dark Room" intro="Dark Room Alt Chapter 6 intro.ogg" path="Dark Room Alt Chapter 6.ogg" layerintro="Dark Room Layer Intro.ogg" layer="Dark Room Layer.ogg"loop="true" mul="3" layermul="3" />
+	<track name="Sacrilege Chest" intro="Chest Room Intro.ogg" path="Chest Room Chapter 6.ogg" layerintro="Chest Layer Intro.ogg" layer="Chest Layer.ogg" loop="true" mul="2" layermul="2" /> 
+	<track name="Sacrilege Void" path="Void.ogg" loop="true" />
 
-	<track name="RYS Boss (alternate alternate)" path="bBasicC.ogg" loop="true" mul="1.6"/>
-	<track name="RYS Boss Death Alternate Alternate (jingle)" path="bBasicCDead.ogg" loop="false" mul="1.6" />
-	
-	<track name="RYS Boss (Mother)" path="bMother.ogg" loop="true" mul="1.9"/>
-	<track name="RYS Boss (Dogma)" path="bDogma.ogg" loop="true" layermode="2" layerfadespeed="0.008" mul="1.5">
-		<layer path="bDogma2.ogg" mul="1.6" />
+	<track name="Sacrilege Boss" intro="Fight Ogg/divine combat intro.ogg" path="Fight Ogg/divine combat loop.ogg" loop="true" />
+	<track name="Sacrilege Boss (alternate)" path="Fight Ogg/Crusade.ogg" loop="true" />
+	<track name="Sacrilege Boss (Depths - Mom)" intro= "fight ogg/mom fight intro.ogg" path="Fight Ogg/mom fight.ogg" loop="true" />
+	<track name="Sacrilege Boss (Womb - Mom's Heart)" path="Fight Ogg/Womb Fight.ogg" loop="true" />
+	<track name="Sacrilege Boss (Cathedral - Isaac)" intro="Fight Ogg/Isaac Fight Intro.ogg" path="Fight Ogg/Isaac Fight.ogg" loop="true" mul="3" />
+	<track name="Sacrilege Boss (Sheol - Satan)" path="Fight Ogg/Satan Fight.ogg" loop="true" mul="1.8"/>
+	<track name="Sacrilege Boss (Dark Room)" intro="Fight Ogg/Lamb Fight Intro.ogg" path="Fight Ogg/Lamb Fight.ogg" loop="true" mul="2" layermul="2" /> 
+	<track name="Sacrilege Boss (Chest - ???)" intro="Fight Ogg/BB Fight Intro.ogg" path="Fight Ogg/BB Fight.ogg" loop="true" mul="2" layermul="2" /> 
+	<track name="Sacrilege Boss (Blue Womb - Hush)" intro="Afterbirth/Morituros (dead womb boss) intro.ogg" path="Afterbirth/Morituros (dead womb boss) Loop.ogg" loop="true" />
+	<track name="Sacrilege Boss (Mega Satan)" intro="Fight Ogg/Mega Satan Fight Intro.ogg" path="Fight Ogg/Mega Satan Fight.ogg" loop="true" mul="2"/>
+	<track name="Sacrilege Boss (Ultra Greed)" intro="Afterbirth/Chorus Mortis (Punk Credit) Intro.ogg" path="Afterbirth/Chorus Mortis (Punk Credit) Loop.ogg" loop="true" />
+	<track name="Sacrilege Boss (Void)" path="Fight Ogg/Delirium Fight.ogg" loop="true" />
+	<track name="Sacrilege Challenge Room (fight)" path="Ambush.ogg" loop="true" />
+	<track name="Sacrilege Challenge Room (fight) (Alt)" path="ambush alt.ogg" intro="JINGLE OGG/ambush alt intro.ogg" loop="true" />
+
+	<track name="Sacrilege Shop Room" intro="Store Loop Intro.ogg" path="Store Loop.ogg" loop="true" />
+	<track name="Sacrilege Library Room" intro="Library Intro.ogg" path="Library.ogg" loop="true" />
+	<track name="Sacrilege Secret Room" path="Secret to Everyone.ogg" loop="true" />
+	<track name="Sacrilege Devil Room" intro="deal with the devil intro.ogg" path="deal with the devil loop.ogg" loop="true" />
+	<track name="Sacrilege Angel Room" intro="Angel Room intro.ogg" path="Angel Room.ogg" loop="true" />
+	<track name="Sacrilege Arcade Room" intro="Retro Beats Intro 8-6-14.ogg" path="Retro Beats 8-6-14.ogg" loop="true" />
+	<track name="Sacrilege Boss Room (empty)" intro="The Calm Intro.ogg" path="The Calm.ogg" loop="true" />
+
+	<track name="Sacrilege Treasure Room Entry (jingle) 1" path="JINGLE OGG/treasure room discoverA.ogg" loop="false" />
+	<track name="Sacrilege Treasure Room Entry (jingle) 2" path="JINGLE OGG/treasure room discoverB.ogg" loop="false" />
+	<track name="Sacrilege Treasure Room Entry (jingle) 3" path="JINGLE OGG/treasure room discoverC.ogg" loop="false" />
+	<track name="Sacrilege Treasure Room Entry (jingle) 4" path="JINGLE OGG/treasure room discover_03.ogg" loop="false" />
+	<track name="Sacrilege Secret Room Find (jingle)" path="JINGLE OGG/secret room find.ogg" loop="false" />
+	<track name="Sacrilege Holy Room Find (jingle)" path="JINGLE OGG/Angel Room Appear V2_07.ogg" loop="false" />
+	<track name="Sacrilege Devil Room appear (jingle)" path="JINGLE OGG/Satan Room Appear V2_01.ogg" loop="false" />
+	<track name="Sacrilege Boss (jingle)" path="JINGLE OGG/Boss Fight intro jingle V2.1.ogg" loop="false" />
+	<track name="Sacrilege Boss Death (jingle)" path="JINGLE OGG/Boss FIght jingle OUTRO v2_12.ogg" loop="false" />
+	<track name="Sacrilege Challenge Room Entry (jingle)" path="JINGLE OGG/Ambush jingle.V2_01.ogg" loop="false" />
+	<track name="Sacrilege Challenge Room Outro (jingle)" path="JINGLE OGG/danny ambush outro.ogg" loop="false" />
+	<track name="Sacrilege Boss Death Alternate (jingle)" path="JINGLE OGG/Boss FIght jingle OUTRO v2_12.ogg" loop="false" />
+	<track name="Sacrilege Boss Hush Death (jingle)" path="Afterbirth/Morituros (dead womb boss) outro.ogg" loop="false" />
+
+<!-- REPENTANCE BEGIN -->
+	<track name="Sacrilege Utero" path="Utero.ogg" layer="Utero Heavy.ogg" loop="true" layermode="2" layerfadespeed="0.005" />
+	<track name="Sacrilege Downpour" path="Repentance/Downpour.ogg" layer="Repentance/Downpour Heavy.ogg" loop="true" layermode="2" layerfadespeed="0.005" />
+	<track name="Sacrilege Dross" path="Repentance/Sewer.ogg" layer="Repentance/Sewer Heavy.ogg" loop="true" layermode="2" layerfadespeed="0.005" />
+	<track name="Sacrilege Mines" path="Repentance/Mines.ogg" layer="Repentance/Mines Heavy.ogg" loop="true" layermode="2" mul="1.15" layermul="1.35" layerfadespeed="0.005" />
+	<track name="Sacrilege Ashpit" intro="Repentance/Ash Pit Intro.ogg" path="Repentance/Ash Pit.ogg" layerintro="Repentance/Ash Pit Heavy Intro.ogg" layer="Repentance/Ash Pit Heavy.ogg" loop="true" layermode="2" mul="1.55" layermul="1.75" layerfadespeed="0.005" />
+	<track name="Sacrilege Mausoleum" path="Repentance/Mausoleum.ogg" layer="Repentance/Mausoleum Heavy.ogg" loop="true" layermode="2" layermul="1.2" layerfadespeed="0.005" />
+	<track name="Sacrilege Gehenna" path="Repentance/Gehenna.ogg" layer="Repentance/Gehenna Heavy.ogg" loop="true" layermode="2" layerfadespeed="0.005" mul="1.5" layermul="2.1" />
+	<track name="Sacrilege Corpse" path="Repentance/Corpse.ogg" layer="Repentance/Corpse Layer.ogg" loop="true" layerfadespeed="0.005" />
+	<track name="Sacrilege Home" path="Repentance/Echoes Of Mom.ogg" layer="Repentance/Echoes of Mom Twisted V2.ogg" loop="true" layerfadespeed="0.005" layermode="2" />
+	<track name="Sacrilege Echoes Reverse" path="Repentance/Echoes Reverse.ogg" loop="true" />
+
+	<track name="Sacrilege Planetarium" path="Repentance/Planetarium.ogg" loop="true" />
+	<track name="Sacrilege Abandoned Mineshaft" path="Repentance/Vast Empty Chasm.ogg" loop="true" />
+	<track name="Sacrilege Mineshaft Escape" path="Repentance/Chased By Death V3.ogg" loop="true" />
+	<track name="Sacrilege Secret Room Alt" intro= "Secret To All Intro.ogg" path="Secret to All.ogg" loop="true" />
+	<track name="Sacrilege Secret Room Alt Alt" intro="Repentance/Super Secret Room Intro.ogg" path="Repentance/Super Secret Room Loop.ogg" loop="true" mul="2.5" />
+
+	<track name="Sacrilege Boss (alternate alternate)" path="Repentance/Boss ALT.ogg" loop="true" />
+	<track name="Sacrilege Boss Rush" path="Boss Rush.ogg" loop="true" />
+	<track name="Sacrilege Boss (Mother)" path="Repentance/MOTHER_BOSS_V6.ogg" loop="true" mul="1.25" />
+	<track name="Sacrilege Boss (Dogma)" path="Repentance/Static Boss Light V2.ogg" loop="true" layermode="2" layerfadespeed="0.008">
+		<layer path="Repentance/Static Boss V2 with Preachers V3.ogg" mul="1.2" />
 		<layer path="Repentance/Static.ogg" mul="1" />
 	</track>
-	<track name="RYS Boss (Beast)" path="bBeastFamine.ogg" loop="true" layermode="2" layerfadespeed="0.01" mul="1.8">
-		<layer path="bBeastPestilence.ogg" mul="1.8" />
-		<layer path="bBeastWar.ogg" mul="2" />
-		<layer path="bBeastDeath.ogg" mul="2" />
-		<layer path="bBeastFinal.ogg" mul="2.2" />
+	<track name="Sacrilege Boss (Beast)" path="Repentance/The_End_FAMINE.ogg" loop="true" layermode="2" layerfadespeed="0.01" mul="1.5">
+		<layer path="Repentance/The_End_PESTILENCE.ogg" mul="1.5" />
+		<layer path="Repentance/The_End_WAR.ogg" mul="1.5" />
+		<layer path="Repentance/The_End_DEATH.ogg" mul="1.5" />
+		<layer path="Repentance/The_End_BEAST.ogg" mul="2" />
 	</track>
-	
-	<track name="RYS Boss Mother Death (jingle)" path="bBasicCDead.ogg" loop="false" mul="1.6" />
-	<track name="RYS Boss Beast Death (jingle)" path="bBasicCDead.ogg" loop="false" mul="1.6" />
-	
-	<track name="RYS Planetarium" path="rPlanetarium.ogg" loop="true" mul="1.1"/>
-	<track name="RYS Secret Room Alt Alt" path="rSecretU.ogg" loop="true" mul="1.5" />
-	<track name="RYS Boss Room (empty, twisted)" intro="bDefeatCorpseIntro.ogg" path="bDefeatCorpse.ogg" loop="true" mul="1.7" />
+
+	<track name="Sacrilege Downpour (reversed)" path="Repentance/Downpour Reverse.ogg" loop="true" />
+	<track name="Sacrilege Dross (reversed)" path="Repentance/Dross Reverse.ogg" loop="true" mul="1.2" />
+	<track name="Sacrilege Genesis (reversed)" path="Repentance/backwards/Genesis ii Reverse Main Loop.ogg" loop="true" mul="1.2">
+		<layer path="Repentance/backwards/Genesis ii Reverse Basement Layer (Drums).ogg" mul="1.2" />
+		<layer path="Repentance/backwards/Genesis ii Reverse Caves Layer (Bass).ogg" mul="1.2" />
+		<layer path="Repentance/backwards/Genesis ii Reverse Depths Layer (Guitar).ogg" mul="1.2" />
+		<layer path="Repentance/backwards/Genesis ii Reverse Downpour Layer (Guitar).ogg" mul="1.2" />
+		<layer path="Repentance/backwards/Genesis ii Reverse Mines Layer (Drumz).ogg" mul="1.2" />
+		<layer path="Repentance/backwards/Genesis ii Reverse Mausoleum Layer (Bass).ogg" mul="1.2" />
+	</track>
+
+	<track name="Sacrilege Boss Rush (jingle)" path="JINGLE OGG/ambush jinle outro v3_04.ogg" loop="false" />
+	<track name="Sacrilege Boss Death Alternate Alternate (jingle)" path="Repentance/Alt Boss Track Jingle.ogg" loop="false" mul="2.2" />
+	<track name="Sacrilege Strange Door (jingle)" path="Repentance/Genesis_SFX_Jingle.ogg" loop="false" />
+	<track name="Sacrilege Mom's Shadow Intro" path="Repentance/Moms_Shadow_Cut_Scene.ogg" loop="false" />
+	<track name="Sacrilege Dogma Intro" path="Repentance/Dogma_static_Cut_Scene_V5.ogg" loop="false" mul="1.5" />
+	<track name="Sacrilege Boss Mother Death (jingle)" path="Repentance/Alt Boss Track Jingle.ogg" loop="false" mul="2.2" />
+	<track name="Sacrilege Boss Dogma Death (jingle)" path="Repentance/Static Boss Light V2 Jingle.ogg" loop="false" mul="1.5" />
+	<track name="Sacrilege Boss Beast Death (jingle)" path="Repentance/Alt Boss Track Jingle.ogg" loop="false" mul="2.2" />
 
 
-	<track name="RYS Game start (jingle, twisted)" path="jGameStartTainted.ogg" loop="false" />
-	<track name="RYS Nightmare (alt)" path="jNightmareDogma.ogg" loop="false" mul="2" />
-	<track name="RYS Mom's Shadow Intro" path="mineshaftCutscene.ogg" loop="false" mul="1.5" />
-	<track name="RYS Dogma Intro" path="jDogmaIntro.ogg" loop="false" mul="1.6" />
-	<track name="RYS Strange Door (jingle)" path="jStrangeDoor.ogg" loop="false" />
-	<track name="RYS Echoes Reverse" path="fHomeNight.ogg" loop="true" mul="1.3" />--> <!-- wrong track -->
-
-
-
-	<!--<track name="RYS Boss Death (jingle)" path="bBasicADead.ogg" loop="false" mul="1.5"/>
-	<track name="RYS Secret Room Find (jingle)" path="jSecretFind.ogg" loop="false" />
-	<track name="RYS Treasure Room Entry (jingle) 1" path="jItemFindA.ogg" loop="false" mul="1.9" />
-	<track name="RYS Treasure Room Entry (jingle) 2" path="jItemFindB.ogg" loop="false" mul="1.8" />
-	<track name="RYS Treasure Room Entry (jingle) 3" path="jItemFindC.ogg" loop="false" mul="2.1" />
-	<track name="RYS Treasure Room Entry (jingle) 4" path="jItemFindD.ogg" loop="false" mul="1.6" />
-	<track name="RYS Challenge Room Outro (jingle)" path="challengeMinibossOutro.ogg" loop="false" mul="1.5" />
-	<track name="RYS Game Over (jingle)" path="jYouDied.ogg" loop="false" mul="2.2" />
-	<track name="RYS Game start (jingle)" path="jGameStart.ogg" loop="false" />
-	<track name="RYS Boss Death Alternate (jingle)" path="bBasicBDead.ogg" loop="false" mul="1.5"/>
-	<track name="RYS Void" path="fVoid.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Boss (Void)" path="bDelirium.ogg" loop="true" mul="1.6"/>
-
-	<track name="RYS Downpour" path="fDownpour.ogg" loop="true" mul="1.5" layerfadespeed="0.01"/>
-	<track name="RYS Mines" path="fMines.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Mausoleum" path="fMausoleum.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Corpse" path="fCorpse.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Dross" path="fDross.ogg" loop="true" mul="1.5" layerfadespeed="0.01"/>
-	<track name="RYS Ashpit" path="fAshpit.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Gehenna" path="fGehenna.ogg" loop="true" mul="1.5" layer="LAYERS/lGehenna.ogg" layermul="0.9"/>
-	<track name="RYS Home" path="fHome.ogg" layer="fHomeNight.ogg" loop="true" layerfadespeed="0.005" layermode="2" mul="0.7" layermul="1.3"/>
-
-	<track name="RYS Downpour (reversed)" path="fDownpourMirror.ogg" loop="true" mul="1.7"/>
-	<track name="RYS Dross (reversed)" path="fDrossMirror.ogg" loop="true" mul="1.5"/>
-	<track name="RYS Abandoned Mineshaft" intro="mineshaftIntro.ogg" path="mineshaftLoop.ogg" loop="true" mul="1.5" />
-	<track name="RYS Mineshaft Escape" path="mineshaftMomsShadow.ogg" loop="true" mul="1.6" />
-	<track name="RYS Genesis (reversed)" path="ascentMain.ogg" loop="true" mul="1.8">
-		<layer path="ascentBasement.ogg" mul="1.8" />
-		<layer path="ascentCaves.ogg" mul="1.8" />
-		<layer path="ascentDepths.ogg" mul="1.8" />
-		<layer path="ascentDownpour.ogg" mul="1.8" />
-		<layer path="ascentMines.ogg" mul="1.8" />
-		<layer path="ascentMaus.ogg" mul="1.8" />
-	</track>-->
+	<track name="Sacrilege Game Over (jingle)" path="JINGLE OGG/Isaac Died_02.ogg" loop="false" />
+	<track name="Sacrilege Game Over" path="You Died.ogg" loop="true" mul="2" layermul="1.6"/>
 </music>

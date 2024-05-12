@@ -15,15 +15,16 @@ local QUEUE = include("sys_queue")
 ---@type table<music_data>
 local MUSIC_INFO = {
     megaSatan = {
-        id = Isaac.GetMusicIdByName("Mega Satan Fight"),
+        id = Isaac.GetMusicIdByName("Sacrilege Boss (Mega Satan)"),
     },
     ambushAlt = {
-        id = Isaac.GetMusicIdByName("Challenge Room (fight) (Alt)"),
+        id = Isaac.GetMusicIdByName("Sacrilege Challenge Room (fight) (Alt)"),
     },
 }
 
 ---@class sfx_data
 ---@field delay number The amount of frames before the sound effect should trigger
+---@field volume number The volume multiplier for the sfx
 ---@field id SoundEffect The sound effect to play
 ---@field original SoundEffect The original sound effect that should be stopped from playing
 ---@field length number The length, in update frames, of the clip before the music should fade back in
@@ -32,38 +33,45 @@ local MUSIC_INFO = {
 local SFX_INFO = {
     devilRoomEnter = {
         delay = 0,
+        volume = 2,
         id = Isaac.GetSoundIdByName("sacrilege_devilenter"),
         length = 3 * 60,
     },
     angelRoomAppear = {
         delay = 0,
-        id = Isaac.GetSoundIdByName("sacrilege_angelappear"),
+        volume = 3,
+        id = Isaac.GetSoundIdByName("Sacrilege Holy Room Find (jingle)"),
         original = SoundEffect.SOUND_CHOIR_UNLOCK,
     },
     challengeRoomEnter = {
         delay = 0,
+        volume = 2,
         id = Isaac.GetSoundIdByName("sacrilege_challengeenter"),
         length = 5 * 60,
     },
     minibossRoomEnter = {
         delay = 0,
+        volume = 2,
         id = Isaac.GetSoundIdByName("sacrilege_minibossenter"),
         length = 1.75 * 60,
     },
     devilItemTake = {
         delay = 0,
+        volume = 1,
         id = Isaac.GetSoundIdByName("sacrilege_devilitemtake"),
         original = SoundEffect.SOUND_DEVILROOM_DEAL,
     },
     supersecretRoomAppear = {
         delay = 0,
+        volume = 2,
         id = Isaac.GetSoundIdByName("sacrilege_supersecretappear"),
-        length = 2.75 * 60,
+        length = 3 * 60,
     },
     ultrasecretRoomAppear = {
         delay = 0,
+        volume = 2,
         id = Isaac.GetSoundIdByName("sacrilege_ultrasecretappear"),
-        length = 2.75 * 60,
+        length = 3 * 60,
     },
 }
 
@@ -80,14 +88,16 @@ local RunType = {
 }
 
 ---@class DoorCallback
----@field type RoomType
----@field callback fun()
----@field flag string
----@field trigger fun(self:DoorCallback, room:Room, door:GridEntityDoor, prev:DoorFlag, curr:DoorFlag):boolean
----@field runType RunType
+---@field type RoomType The room type to trigger the callback on
+---@field callback fun() The callback when a room is encountered
+---@field flag string The save data flag that should be used for the doors
+---@field setting fun():boolean Whether to run this callback
+---@field trigger (fun(self:DoorCallback, room:Room, door:GridEntityDoor, prev:DoorFlag, curr:DoorFlag):boolean)? Whether the callback should be triggered
+---@field runType RunType When this callback should be checked
 
----@type DoorCallback[]
+---@type table<string, DoorCallback>
 local DoorCallbacks = {}
+
 --#endregion
 
 --#region Local functions
@@ -120,7 +130,7 @@ local function PlaySFX(info)
     end
     -- Add the sound effect to a queue
     QUEUE:AddItem(info.delay, 0, function ()
-        SFX:Play(info.id, 1)
+        SFX:Play(info.id, info.volume)
     end, QUEUE.UpdateType.Render)
 end
 
@@ -199,7 +209,7 @@ local function CallbackWhenRoomAppears(runType)
             -- Loop through all callbacks
             for _, data in pairs(DoorCallbacks) do
                 -- Check if the run type for the callback is the same
-                if runType == data.runType then
+                if runType == data.runType and data.setting() then
                     -- Initialize the state of the doors in the room
                     save[data.flag] = save[data.flag] or {}
                     -- Initalize the state of this door
@@ -224,6 +234,18 @@ end
 --#endregion
 
 --#region Music
+
+function SACRILEGE:OnGameStart()
+	if SoundtrackSongList then
+		--add soundtrack to menu
+		AddSoundtrackToMenu("Sacrilege")
+		--add track list to jukebox
+		if nil then
+			AddTitlesToJukebox("Sacrilege", "Sacrilege", "Sacrilege", nil)
+		end
+	end
+end
+SACRILEGE:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, SACRILEGE.OnGameStart)
 
 if REPENTOGON then
     ---Handles playing a special track for MegaSatan
@@ -335,15 +357,16 @@ SACRILEGE:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, SACRILEGE.SFXWhenEnteringRo
 --#region Rooms Appearing SFX
 
 -- Angel Room Appearing
-table.insert(DoorCallbacks, {
+DoorCallbacks.AngelRoom = {
     type = RoomType.ROOM_ANGEL,
     callback = function() PlaySFX(SFX_INFO.angelRoomAppear) end,
     flag = "angelHasAppeared",
+    setting = function() return SoundtrackSongList == nil end,
     runType = RunType.OnRender
-})
+}
 
 -- Super secret Room Appearing
-table.insert(DoorCallbacks, {
+DoorCallbacks.SupersecretRoom = {
     type = RoomType.ROOM_SUPERSECRET,
     callback = function() PlaySFXAlert(SFX_INFO.supersecretRoomAppear, 0.05) end,
     flag = "supersecretHasAppeared",
@@ -355,11 +378,12 @@ table.insert(DoorCallbacks, {
         -- If the sound should play
         return normalApp and addApp
     end,
+    setting = function() return true end,
     runType = RunType.OnRender
-})
+}
 
 -- Ultra secret Room Appearing
-table.insert(DoorCallbacks, {
+DoorCallbacks.UltrasecretRoom = {
     type = RoomType.ROOM_ULTRASECRET,
     callback = function() PlaySFXAlert(SFX_INFO.ultrasecretRoomAppear, 0.05) end,
     flag = "ultrasecretDoor",
@@ -367,8 +391,9 @@ table.insert(DoorCallbacks, {
     trigger = function (self, room, door, _, _)
         return door:IsRoomType(self.type) and room:IsFirstVisit() and Game():GetLevel():GetRoomByIdx(door.TargetRoomIndex).VisitedCount == 0
     end,
+    setting = function() return true end,
     runType = RunType.OnNewRoom
-})
+}
 
 ---Play a sound when a room appears
 function SACRILEGE:SFXRoomAppearing()

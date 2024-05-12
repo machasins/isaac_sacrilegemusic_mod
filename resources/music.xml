@@ -1,4 +1,4 @@
-<music root="music/Sacrilege">
+<music root="music/">
 	<track id="1" name="Basement" intro="Diptera Sonata Intro.ogg" path="Diptera Sonata(Basement).ogg" layerintro="Diptera Layer Intro.ogg" layer="Diptera Layer.ogg" loop="true" mul="2" layermul="2"/>
 	<track id="2" name="Caves" intro="The Caves Intro.ogg" path="The Caves.ogg" layerintro="The Caves Layer Intro.ogg" layer="The Caves Layer.ogg" loop="true" mul="2" layermul="2.9"/>
 	<track id="3" name="Depths" intro="The Depths Intro.ogg" path="The Depths.ogg" layerintro="The Depths Intro Layer.ogg" layer="The Depths Layer.ogg" loop="true" mul="2" layermul="2.3"/>

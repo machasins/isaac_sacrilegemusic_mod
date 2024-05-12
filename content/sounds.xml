@@ -1,8 +1,8 @@
-<sounds root="sfx/">
+<sounds root="sfx/Sacrilege/">
     <sound name="sacrilege_devilenter">
         <sample weight="1" path="devilRoomEnter.wav" />
     </sound>
-    <sound name="sacrilege_angelappear">
+    <sound name="Sacrilege Holy Room Find (jingle)">
         <sample weight="1" path="angelRoomAppear.wav" />
     </sound>
     <sound name="sacrilege_challengeenter">
