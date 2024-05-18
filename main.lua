@@ -152,12 +152,19 @@ local function WaitForSFXToEnd(info, callback)
     QUEUE:AddCallback(info.delay + 1, function (t)
         -- Whether the sound is playing or the length has finished
         return not SFX:IsPlaying(info.id) or (info.length and t > info.length)
-    end, function ()
-        callback()
-    end, QUEUE.UpdateType.Render)
+    end, callback, QUEUE.UpdateType.Render)
 end
 
----Play a sound effect and pausr the music while it is playing
+---Callback when an SFX ends
+---@param info sfx_data The sound effect to wait for
+---@param checkFunc fun(integer?):boolean A check function that checks if the sound should be interupted
+---@param callback fun() The callback
+local function WaitForSFXEvent(info, checkFunc, callback)
+    -- Add an item to the queue that waits for the sound to stop
+    QUEUE:AddCallback(info.delay + 1, checkFunc, callback, QUEUE.UpdateType.Render)
+end
+
+---Play a sound effect and pause the music while it is playing
 ---@param info sfx_data The sound effect to play
 ---@param volUnmuteSpeed number How fast to fade back into the normal music
 local function PlaySFXAlert(info, volUnmuteSpeed)
@@ -174,6 +181,30 @@ local function PlaySFXAlert(info, volUnmuteSpeed)
         MUSIC:VolumeSlide(1, volUnmuteSpeed)
         QUEUE:AddItem(1 / volUnmuteSpeed, 0, function () MUSIC:UpdateVolume() end, 1)
     end)
+end
+
+---Play a sound effect and pause the music while it is playing, but can be interupted if needed
+---@param info sfx_data The sound effect to play
+---@param checkFunc fun():boolean A check function that checks if the sound should be interupted
+---@param volUnmuteSpeed number How fast to fade back into the normal music
+local function PlaySFXAlertInterupt(info, checkFunc, volUnmuteSpeed)
+    -- Mute the music
+    QUEUE:AddItem(0, 0, function ()
+        MUSIC:VolumeSlide(0, 1)
+        MUSIC:Disable()
+    end, 2)
+    -- Play the sound effect
+    PlaySFX(info)
+    -- Function to stop the music from playing
+    local stopMusic = function ()
+        SFX:Stop(info.id)
+        MUSIC:Enable()
+        MUSIC:VolumeSlide(1, volUnmuteSpeed)
+        QUEUE:AddItem(1 / volUnmuteSpeed, 0, function () MUSIC:UpdateVolume() end, 1)
+    end
+    -- Wait for the sound effect to finish, then play the music again
+    WaitForSFXToEnd(info, stopMusic)
+    WaitForSFXEvent(info, checkFunc, stopMusic)
 end
 
 ---Play a sound effect when entering a room type for the first time on a floor, should be run every update frame
@@ -429,7 +460,9 @@ function SACRILEGE:SFXWhenEnteringRooms()
     ---Play a sound when entering a devil room for the first time
     CallbackWhenEnteringRoom(RoomType.ROOM_DEVIL, function() PlaySFXAlert(SFX_INFO.devilRoomEnter, 0.05) end)
     ---Play a sound when entering a challenge room for the first time
-    CallbackWhenEnteringRoom(RoomType.ROOM_CHALLENGE, function() PlaySFXAlert(SFX_INFO.challengeRoomEnter, 0.05) end)
+    CallbackWhenEnteringRoom(RoomType.ROOM_CHALLENGE, function() PlaySFXAlertInterupt(SFX_INFO.challengeRoomEnter, function ()
+        return not SFX:IsPlaying(SFX_INFO.challengeRoomEnter.id) or Game():GetLevel():GetCurrentRoom():IsAmbushActive()
+    end, 0.05) end)
     ---Play a sound when entering a miniboss room when uncleared
     CallbackWhenEnteringUnclearedRoom(RoomType.ROOM_MINIBOSS, function() PlaySFXAlert(SFX_INFO.minibossRoomEnter, 0.05) end)
 
@@ -460,7 +493,7 @@ DoorCallbacks.SupersecretRoom = {
         -- If the door is newly opened and the correct type of door
         local normalApp = door:IsRoomType(self.type) and prev == DoorFlag.Closed and curr == DoorFlag.Open
         -- If the door had to be bombed into/found
-        local addApp = not Game():GetLevel():GetCanSeeEverything() and not AnyPlayerHas(CollectibleType.COLLECTIBLE_XRAY_VISION)
+        local addApp = not Game():GetLevel():GetCanSeeEverything() and not AnyPlayerHas(CollectibleType.COLLECTIBLE_XRAY_VISION) and not SFX:IsPlaying(SoundEffect.SOUND_GOLDENKEY)
         -- If the sound should play
         return normalApp and addApp
     end,
