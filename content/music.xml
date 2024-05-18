@@ -109,4 +109,6 @@
 
 	<track name="Sacrilege Game Over (jingle)" path="JINGLE OGG/Isaac Died_02.ogg" loop="false" />
 	<track name="Sacrilege Game Over" path="You Died.ogg" loop="true" mul="2" layermul="1.6"/>
+	
+	<track name="Sacrilege Unicorn" path="unicorn.ogg" loop="false" mul="2"/>
 </music>

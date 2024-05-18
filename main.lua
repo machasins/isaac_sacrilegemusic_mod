@@ -20,6 +20,9 @@ local MUSIC_INFO = {
     ambushAlt = {
         id = Isaac.GetMusicIdByName("Sacrilege Challenge Room (fight) (Alt)"),
     },
+    unicornMusic = {
+        id = Isaac.GetMusicIdByName("Sacrilege Unicorn"),
+    },
 }
 
 ---@class sfx_data
@@ -97,6 +100,13 @@ local RunType = {
 
 ---@type table<string, DoorCallback>
 local DoorCallbacks = {}
+
+---@class UnicornEffect
+---@field hasEffect boolean
+---@field duration number
+
+---@type table<integer, table<CollectibleType, UnicornEffect>>
+local unicornEffects = {}
 
 --#endregion
 
@@ -235,6 +245,7 @@ end
 
 --#region Music
 
+---Compatibility with the Soundtrack mod
 function SACRILEGE:OnGameStart()
 	if SoundtrackSongList then
 		--add soundtrack to menu
@@ -334,6 +345,81 @@ else
 
     SACRILEGE:AddCallback(ModCallbacks.MC_POST_UPDATE, SACRILEGE.AmbushAltMusic)
 end
+
+if StageAPI then
+    -- idk the flash unicorn sound mod had this so we keeping it
+    StageAPI.StopOverridingMusic(MUSIC_INFO.unicornMusic.id, true, true)
+end
+
+---Start playing the unicorn music when the player gets the corresponding effect
+---@param player EntityPlayer
+function SACRILEGE:UnicornEffectUpdate(player)
+    -- The collectibles that can cause the unicorn effect
+    local COLLECTIBLE_EFFECTS = {
+        CollectibleType.COLLECTIBLE_GAMEKID,
+        CollectibleType.COLLECTIBLE_UNICORN_STUMP,
+        CollectibleType.COLLECTIBLE_MY_LITTLE_UNICORN,
+        CollectibleType.COLLECTIBLE_TAURUS
+    }
+
+    -- Initialize variable that store the player's effect status
+    unicornEffects[player.Index] = unicornEffects[player.Index] or {}
+
+    -- The effects the player has
+    local effects = player:GetEffects()
+    -- The status of each effect
+    local effectStatus = unicornEffects[player.Index]
+    -- The current music being played
+    local currentSong = MUSIC:GetCurrentMusicID()
+
+    -- Loop through all collectibles
+    for _, v in pairs(COLLECTIBLE_EFFECTS) do
+        -- Initialize the effect status if needed
+        effectStatus[v] = effectStatus[v] or {}
+        -- Whether the effect was active in the last frame
+        local previousHad = effectStatus[v].hasEffect
+        -- Whether the effect is active this frame
+        effectStatus[v].hasEffect = effects:HasCollectibleEffect(v)
+        -- Check if the effect is new on this frame or if the song has ended but the effect is still ongoing
+        if (not previousHad and effectStatus[v].hasEffect) or (effectStatus[v].hasEffect and currentSong ~= MUSIC_INFO.unicornMusic.id) then
+            -- Undo the pitch caused by the normal unicorn effect
+            MUSIC:PitchSlide(1)
+            -- Play the current music
+            MUSIC:Play(MUSIC_INFO.unicornMusic.id, 1)
+            -- Update the volume of the unicorn music
+            MUSIC:UpdateVolume()
+            -- Check if the current music being played is not the unicorn music
+            if currentSong ~= MUSIC_INFO.unicornMusic.id then
+                -- Queue the previous song to play after the unicorn music
+                MUSIC:Queue(currentSong)
+            end
+        end
+    end
+end
+
+SACRILEGE:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, SACRILEGE.UnicornEffectUpdate)
+
+---Keep the 
+function SACRILEGE:UnicornPostUpdate()
+    if MUSIC:GetCurrentMusicID() == MUSIC_INFO.unicornMusic.id then
+        MUSIC:VolumeSlide(1)
+        MUSIC:UpdateVolume()
+        MUSIC:PitchSlide(1)
+    end
+end
+
+SACRILEGE:AddCallback(ModCallbacks.MC_POST_UPDATE, SACRILEGE.UnicornPostUpdate)
+
+function SACRILEGE:UnicornNewRoom()
+    if MUSIC:GetCurrentMusicID() == MUSIC_INFO.unicornMusic.id then
+        MUSIC:Play(MUSIC:GetQueuedMusicID(), 1)
+        MUSIC:UpdateVolume()
+    end
+
+    unicornEffects = {}
+end
+
+SACRILEGE:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, SACRILEGE.UnicornNewRoom)
 
 --#endregion
 
