@@ -108,6 +108,8 @@ local DoorCallbacks = {}
 ---@type table<integer, table<CollectibleType, UnicornEffect>>
 local unicornEffects = {}
 
+local dadsKeyUsedThisFrame = false
+
 --#endregion
 
 --#region Local functions
@@ -489,11 +491,11 @@ DoorCallbacks.SupersecretRoom = {
     type = RoomType.ROOM_SUPERSECRET,
     callback = function() PlaySFXAlert(SFX_INFO.supersecretRoomAppear, 0.05) end,
     flag = "supersecretHasAppeared",
-    trigger = function (self, room, door, prev, curr)
+    trigger = function (self, _, door, prev, curr)
         -- If the door is newly opened and the correct type of door
         local normalApp = door:IsRoomType(self.type) and prev == DoorFlag.Closed and curr == DoorFlag.Open
         -- If the door had to be bombed into/found
-        local addApp = not Game():GetLevel():GetCanSeeEverything() and not AnyPlayerHas(CollectibleType.COLLECTIBLE_XRAY_VISION) and not SFX:IsPlaying(SoundEffect.SOUND_GOLDENKEY)
+        local addApp = not Game():GetLevel():GetCanSeeEverything() and not AnyPlayerHas(CollectibleType.COLLECTIBLE_XRAY_VISION) and not dadsKeyUsedThisFrame
         -- If the sound should play
         return normalApp and addApp
     end,
@@ -562,5 +564,12 @@ end
 
 SACRILEGE:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, SACRILEGE.SFXWhenTakingDeal)
 
+
+function SACRILEGE:DadsKeyUsage()
+    dadsKeyUsedThisFrame = true
+    QUEUE:AddItem(1, 0, function() dadsKeyUsedThisFrame = false end, QUEUE.UpdateType.Update)
+end
+
+SACRILEGE:AddCallback(ModCallbacks.MC_USE_ITEM, SACRILEGE.DadsKeyUsage, CollectibleType.COLLECTIBLE_DADS_KEY)
 
 --#endregion
