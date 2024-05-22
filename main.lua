@@ -413,18 +413,22 @@ function SACRILEGE:UnicornEffectUpdate(player)
         local previousHad = effectStatus[v].hasEffect
         -- Whether the effect is active this frame
         effectStatus[v].hasEffect = effects:HasCollectibleEffect(v)
-        -- Check if the effect is new on this frame or if the song has ended but the effect is still ongoing
-        if (not previousHad and effectStatus[v].hasEffect) or (effectStatus[v].hasEffect and currentSong ~= MUSIC_INFO.unicornMusic.id) then
-            -- Undo the pitch caused by the normal unicorn effect
-            MUSIC:PitchSlide(1)
-            -- Play the current music
-            MUSIC:Play(MUSIC_INFO.unicornMusic.id, 1)
-            -- Update the volume of the unicorn music
-            MUSIC:UpdateVolume()
-            -- Check if the current music being played is not the unicorn music
-            if currentSong ~= MUSIC_INFO.unicornMusic.id then
-                -- Queue the previous song to play after the unicorn music
-                MUSIC:Queue(currentSong)
+        -- Check if the player has the effect
+        if effectStatus[v].hasEffect then
+            local effect = effects:GetCollectibleEffect(v)
+            -- Check if the effect is new on this frame or if the song has ended but the effect is still ongoing
+            if effect.Cooldown > 0 and (not previousHad or currentSong ~= MUSIC_INFO.unicornMusic.id) then
+                -- Undo the pitch caused by the normal unicorn effect
+                MUSIC:PitchSlide(1)
+                -- Play the current music
+                MUSIC:Play(MUSIC_INFO.unicornMusic.id, 1)
+                -- Update the volume of the unicorn music
+                MUSIC:UpdateVolume()
+                -- Check if the current music being played is not the unicorn music
+                if currentSong ~= MUSIC_INFO.unicornMusic.id then
+                    -- Queue the previous song to play after the unicorn music
+                    MUSIC:Queue(currentSong)
+                end
             end
         end
     end
@@ -564,7 +568,7 @@ end
 
 SACRILEGE:AddCallback(ModCallbacks.MC_POST_PLAYER_UPDATE, SACRILEGE.SFXWhenTakingDeal)
 
-
+---Function to track when the effect of dads key was triggered
 function SACRILEGE:DadsKeyUsage()
     dadsKeyUsedThisFrame = true
     QUEUE:AddItem(1, 0, function() dadsKeyUsedThisFrame = false end, QUEUE.UpdateType.Update)
