@@ -93,9 +93,10 @@ local RunType = {
 ---@class DoorCallback
 ---@field type RoomType The room type to trigger the callback on
 ---@field callback fun() The callback when a room is encountered
----@field flag string The save data flag that should be used for the doors
+---@field doorFlag string The save data flag that should be used for the doors
+---@field roomFlag string The save data flag that should be used for the room being encountered
 ---@field setting fun():boolean Whether to run this callback
----@field trigger (fun(self:DoorCallback, room:Room, door:GridEntityDoor, prev:DoorFlag, curr:DoorFlag):boolean)? Whether the callback should be triggered
+---@field trigger (fun(self:DoorCallback, room:Room, door:GridEntityDoor, prev:DoorFlag, curr:DoorFlag, seen:boolean):boolean)? Whether the callback should be triggered
 ---@field runType RunType When this callback should be checked
 
 ---@type table<string, DoorCallback>
@@ -169,17 +170,18 @@ end
 ---Play a sound effect and pause the music while it is playing
 ---@param info sfx_data The sound effect to play
 ---@param volUnmuteSpeed number How fast to fade back into the normal music
-local function PlaySFXAlert(info, volUnmuteSpeed)
+---@param disableMusic boolean? Whether to disable the music entirely during the sfx
+local function PlaySFXAlert(info, volUnmuteSpeed, disableMusic)
     -- Mute the music
     QUEUE:AddItem(0, 0, function ()
         MUSIC:VolumeSlide(0, 1)
-        MUSIC:Disable()
+        if disableMusic then MUSIC:Disable() end
     end, 2)
     -- Play the sound effect
     PlaySFX(info)
     -- Wait for the sound effect to finish, then play the music again
     WaitForSFXToEnd(info, function ()
-        MUSIC:Enable()
+        if disableMusic then MUSIC:Enable() end
         MUSIC:VolumeSlide(1, volUnmuteSpeed)
         QUEUE:AddItem(1 / volUnmuteSpeed, 0, function () MUSIC:UpdateVolume() end, 1)
     end)
@@ -189,18 +191,19 @@ end
 ---@param info sfx_data The sound effect to play
 ---@param checkFunc fun():boolean A check function that checks if the sound should be interupted
 ---@param volUnmuteSpeed number How fast to fade back into the normal music
-local function PlaySFXAlertInterupt(info, checkFunc, volUnmuteSpeed)
+---@param disableMusic boolean? Whether to disable the music entirely during the sfx
+local function PlaySFXAlertInterupt(info, checkFunc, volUnmuteSpeed, disableMusic)
     -- Mute the music
     QUEUE:AddItem(0, 0, function ()
         MUSIC:VolumeSlide(0, 1)
-        MUSIC:Disable()
+        if disableMusic then MUSIC:Disable() end
     end, 2)
     -- Play the sound effect
     PlaySFX(info)
     -- Function to stop the music from playing
     local stopMusic = function ()
         SFX:Stop(info.id)
-        MUSIC:Enable()
+        if disableMusic then MUSIC:Enable() end
         MUSIC:VolumeSlide(1, volUnmuteSpeed)
         QUEUE:AddItem(1 / volUnmuteSpeed, 0, function () MUSIC:UpdateVolume() end, 1)
     end
@@ -225,11 +228,13 @@ end
 ---Play a sound effect when entering a room type that is uncleared on a floor, should be run every update frame
 ---@param type RoomType The type of room the sound should be played for
 ---@param func fun() The callback to be executed
-local function CallbackWhenEnteringUnclearedRoom(type, func)
+---@param trig (fun(room:Room):boolean)? Whether to trigger the callback
+local function CallbackWhenEnteringUnclearedRoom(type, func, trig)
+    trig = trig or function (room) return true end
     -- The current room
     local room = Game():GetLevel():GetCurrentRoom()
     -- Check if the current room is being visited for the first time and that the room is the right type
-    if not room:IsClear() and room:GetFrameCount() == 0 and room:GetType() == type then
+    if not room:IsClear() and room:GetFrameCount() == 0 and room:GetType() == type and trig(room) then
         -- Execute the callback
         func()
     end
@@ -239,34 +244,45 @@ end
 ---@param runType RunType The type of room the sound should be played for
 local function CallbackWhenRoomAppears(runType)
     -- Initialize the door checking function
-    local applicable = function (self, room, door, prev, curr) return door:IsRoomType(self.type) and prev == DoorFlag.Closed and curr == DoorFlag.Open end
+    local applicable = function (self, room, door, prev, curr, seen) return not seen and door:IsRoomType(self.type) and prev == DoorFlag.Closed and curr == DoorFlag.Open end
     -- The current room
     local room = Game():GetLevel():GetCurrentRoom()
     -- The save for the current room
-    local save = SAVE.GetRoomSave()
-    if save then
+    local roomSave = SAVE.GetRoomSave()
+    -- The save for the current floor
+    local floorSave = SAVE.GetFloorSave()
+    if roomSave and floorSave then
         -- Loop through all door slots
         for i = 0, DoorSlot.NUM_DOOR_SLOTS do
             -- The door in the current slot
             local door = room:GetDoor(i)
+            local doorRoomIndex = door and Game():GetLevel():GetRoomByIdx(door.TargetRoomIndex).SafeGridIndex or -1
             -- Loop through all callbacks
             for _, data in pairs(DoorCallbacks) do
+                -- Initialize the state of rooms on the floor
+                floorSave[data.roomFlag] = floorSave[data.roomFlag] or {}
+                -- Initialize the state of the doors in the room
+                roomSave[data.doorFlag] = roomSave[data.doorFlag] or {}
                 -- Check if the run type for the callback is the same
                 if runType == data.runType and data.setting() then
-                    -- Initialize the state of the doors in the room
-                    save[data.flag] = save[data.flag] or {}
+                    -- Initalize whether the player used the callback for this door before
+                    floorSave[data.roomFlag][doorRoomIndex .. ""] = floorSave[data.roomFlag][doorRoomIndex .. ""] or false
                     -- Initalize the state of this door
-                    save[data.flag][i .. ""] = save[data.flag][i .. ""] or DoorFlag.Open
+                    roomSave[data.doorFlag][i .. ""] = roomSave[data.doorFlag][i .. ""] or DoorFlag.Open
                     -- The previous state of the door
-                    local previousState = save[data.flag][i .. ""]
+                    local previousState = roomSave[data.doorFlag][i .. ""]
                     -- The current state of the door
-                    save[data.flag][i .. ""] = (door and door:IsOpen()) and DoorFlag.Open or DoorFlag.Closed
+                    roomSave[data.doorFlag][i .. ""] = (door and door:IsOpen()) and DoorFlag.Open or DoorFlag.Closed
                     -- Initialize the trigger function
                     local check = data.trigger or applicable
-                    -- Check if the door passes a trigger function
-                    if door and check(data, room, door, previousState, save[data.flag][i .. ""]) then
+                    -- Whether the door passes a trigger function
+                    local checkValue = door and check(data, room, door, previousState, roomSave[data.doorFlag][i .. ""], floorSave[data.roomFlag][doorRoomIndex .. ""])
+                    -- Check if the door succeeded
+                    if checkValue then
                         -- Execute the callback
                         data.callback()
+                        -- Save that the callback was executed for this room
+                        floorSave[data.roomFlag][doorRoomIndex .. ""] = true
                     end
                 end
             end
@@ -471,6 +487,12 @@ function SACRILEGE:SFXWhenEnteringRooms()
     end, 0.05) end)
     ---Play a sound when entering a miniboss room when uncleared
     CallbackWhenEnteringUnclearedRoom(RoomType.ROOM_MINIBOSS, function() PlaySFXAlert(SFX_INFO.minibossRoomEnter, 0.05) end)
+    ---Play a sound when entering a shop with greed
+    CallbackWhenEnteringUnclearedRoom(RoomType.ROOM_SHOP, function() PlaySFXAlert(SFX_INFO.minibossRoomEnter, 0.05) end,
+        function(room) return Game():GetLevel():GetCurrentRoomDesc().SurpriseMiniboss end)
+    ---Play a sound when entering a secret room with greed
+    CallbackWhenEnteringUnclearedRoom(RoomType.ROOM_SECRET, function() PlaySFXAlert(SFX_INFO.minibossRoomEnter, 0.05) end,
+        function(room) return Game():GetLevel():GetCurrentRoomDesc().SurpriseMiniboss end)
 
     CallbackWhenRoomAppears(RunType.OnNewRoom)
 end
@@ -485,7 +507,8 @@ SACRILEGE:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, SACRILEGE.SFXWhenEnteringRo
 DoorCallbacks.AngelRoom = {
     type = RoomType.ROOM_ANGEL,
     callback = function() PlaySFX(SFX_INFO.angelRoomAppear) end,
-    flag = "angelHasAppeared",
+    doorFlag = "angelDoor",
+    roomFlag = "angelHasAppeared",
     setting = function() return SoundtrackSongList == nil end,
     runType = RunType.OnRender
 }
@@ -493,15 +516,16 @@ DoorCallbacks.AngelRoom = {
 -- Super secret Room Appearing
 DoorCallbacks.SupersecretRoom = {
     type = RoomType.ROOM_SUPERSECRET,
-    callback = function() PlaySFXAlert(SFX_INFO.supersecretRoomAppear, 0.05) end,
-    flag = "supersecretHasAppeared",
-    trigger = function (self, _, door, prev, curr)
+    callback = function() PlaySFXAlert(SFX_INFO.supersecretRoomAppear, 0.05, true) end,
+    doorFlag = "supersecretDoor",
+    roomFlag = "supersecretHasAppeared",
+    trigger = function (self, _, door, prev, curr, seen)
         -- If the door is newly opened and the correct type of door
         local normalApp = door:IsRoomType(self.type) and prev == DoorFlag.Closed and curr == DoorFlag.Open
         -- If the door had to be bombed into/found
         local addApp = not Game():GetLevel():GetCanSeeEverything() and not AnyPlayerHas(CollectibleType.COLLECTIBLE_XRAY_VISION) and not dadsKeyUsedThisFrame
-        -- If the sound should play
-        return normalApp and addApp
+        -- Return if the sound should play
+        return not seen and normalApp and addApp
     end,
     setting = function() return true end,
     runType = RunType.OnRender
@@ -510,10 +534,10 @@ DoorCallbacks.SupersecretRoom = {
 -- Ultra secret Room Appearing
 DoorCallbacks.UltrasecretRoom = {
     type = RoomType.ROOM_ULTRASECRET,
-    callback = function() PlaySFXAlert(SFX_INFO.ultrasecretRoomAppear, 0.05) end,
-    flag = "ultrasecretDoor",
-    ---@type fun(self:DoorCallback, room:Room, door:GridEntityDoor, prev:DoorFlag, curr:DoorFlag):boolean
-    trigger = function (self, room, door, _, _)
+    callback = function() PlaySFXAlert(SFX_INFO.ultrasecretRoomAppear, 0.05, true) end,
+    doorFlag = "ultrasecretDoor",
+    roomFlag = "ultrasecretHasAppeared",
+    trigger = function (self, room, door, _, _, _)
         return door:IsRoomType(self.type) and room:IsFirstVisit() and Game():GetLevel():GetRoomByIdx(door.TargetRoomIndex).VisitedCount == 0
     end,
     setting = function() return true end,
