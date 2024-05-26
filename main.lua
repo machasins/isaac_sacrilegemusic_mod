@@ -2,6 +2,8 @@ local SACRILEGE = RegisterMod("Binding of Isaac-SACRILEGE Soundtrack", 1)
 local SAVE = include("save_manager")
 SAVE.Init(SACRILEGE)
 
+local DO_VOLUME_CHANGE = false -- For adjusting volume of sound files
+
 local MUSIC = MusicManager()
 local SFX = SFXManager()
 ---@type QUEUE
@@ -143,7 +145,7 @@ local function PlaySFX(info)
     end
     -- Add the sound effect to a queue
     QUEUE:AddItem(info.delay, 0, function ()
-        SFX:Play(info.id, info.volume)
+        SFX:Play(info.id, DO_VOLUME_CHANGE and info.volume or 1)
     end, QUEUE.UpdateType.Render)
 end
 
