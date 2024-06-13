@@ -246,7 +246,9 @@ end
 ---@param runType RunType The type of room the sound should be played for
 local function CallbackWhenRoomAppears(runType)
     -- Initialize the door checking function
-    local applicable = function (self, room, door, prev, curr, seen) return not seen and door:IsRoomType(self.type) and prev == DoorFlag.Closed and curr == DoorFlag.Open end
+    local applicable = function (self, room, door, prev, curr, seen)
+        return not seen and room.Type ~= self.type and door:IsRoomType(self.type) and prev == DoorFlag.Closed and curr == DoorFlag.Open
+    end
     -- The current room
     local room = Game():GetLevel():GetCurrentRoom()
     -- The save for the current room
@@ -521,9 +523,9 @@ DoorCallbacks.SupersecretRoom = {
     callback = function() PlaySFXAlert(SFX_INFO.supersecretRoomAppear, 0.05, true) end,
     doorFlag = "supersecretDoor",
     roomFlag = "supersecretHasAppeared",
-    trigger = function (self, _, door, prev, curr, seen)
+    trigger = function (self, room, door, prev, curr, seen)
         -- If the door is newly opened and the correct type of door
-        local normalApp = door:IsRoomType(self.type) and prev == DoorFlag.Closed and curr == DoorFlag.Open
+        local normalApp = room ~= self.type and door:IsRoomType(self.type) and prev == DoorFlag.Closed and curr == DoorFlag.Open
         -- If the door had to be bombed into/found
         local addApp = not Game():GetLevel():GetCanSeeEverything() and not AnyPlayerHas(CollectibleType.COLLECTIBLE_XRAY_VISION) and not dadsKeyUsedThisFrame
         -- Return if the sound should play
