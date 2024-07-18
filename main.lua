@@ -568,7 +568,7 @@ function SACRILEGE:PickupCollision(pickup, player)
     -- Check if the entity collided with is the player
     -- AND the pickup is a collectible
     -- AND the pickup has a price
-    if player.Type == EntityType.ENTITY_PLAYER and pickup.Variant == PickupVariant.PICKUP_COLLECTIBLE and pickup.Price < 0 then
+    if player.Type == EntityType.ENTITY_PLAYER and pickup.Variant == PickupVariant.PICKUP_COLLECTIBLE and pickup.Price ~= 0 then
         -- Set that the player touched an item
         itemTouched[player.Index] = pickup.SubType
     end
